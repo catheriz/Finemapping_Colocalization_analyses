@@ -16,7 +16,7 @@ chromosome <- as.numeric(args[6]) # User-specified chromosome
 # Read input summary statistics
 gwas_data <- fread(summ_file)
 gwas_data$position <- as.numeric(str_split_fixed(gwas_data$SNP, ':', 4)[,2])
-
+gwas_data$chr <- as.numeric(str_split_fixed(gwas_data$SNP, ':', 4)[,1])
 
 # Filter GWAS data
 gwas_data <- gwas_data[gwas_data$position >= lower & gwas_data$position <= upper & gwas_data$chr == chromosome, ]
