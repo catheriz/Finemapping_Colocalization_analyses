@@ -23,6 +23,7 @@ gwas_data <- gwas_data[gwas_data$position >= lower & gwas_data$position <= upper
 gwas_data$varbeta <- (gwas_data$se) ** 2
 gwas_data$z <- gwas_data$b / gwas_data$se
 gwas_data <- gwas_data[, .(snp = SNP, chromosome = chr, position, allele1 = A1, allele2 = A2, beta = b, se, z, N, varbeta)]
+# Ordered by chromosome and position
 setorder(gwas_data, chromosome, position)
 
 # Load LD matrix
