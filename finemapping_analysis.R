@@ -49,6 +49,6 @@ for (i in 1:L) {
   g$name <- colnames(gwas_S$alpha)[colnames(gwas_S$alpha) %in% q]
   g$coverage <- gwas_S$sets$coverage[i]
   g <- g[, c(3,1,2)]
-  fwrite(g, paste0(SNP, '_', name_list, '_credible_set_susieR_results.txt'), quote = FALSE, row.names = FALSE, col.names = TRUE)
+  fwrite(g, paste0(SNP, '_', name_list, '_credible_set_susieR_results.txt'), quote = FALSE, row.names = FALSE, col.names = TRUE, sep = "\t")
 }
 
