@@ -50,7 +50,7 @@ for (i in 1:L) {
   g$name <- colnames(gwas_S$alpha)[colnames(gwas_S$alpha) %in% q]
   g$coverage <- gwas_S$sets$coverage[i]
   g <- g[, c(3,1,2)]
-  fwrite(g, paste0(SNP, '_', name_list, '_credible_set_gwas.txt'), quote = FALSE, row.names = FALSE, col.names = TRUE)
+  fwrite(g, paste0(SNP, '_', name_list, '_credible_set_gwas.txt'), quote = FALSE, row.names = FALSE, col.names = TRUE, sep = "\t")
 }
 
 # Read and process eQTL summary statistics
@@ -87,13 +87,13 @@ for (i in 1:L) {
   g$name <- colnames(eqtl_S$alpha)[colnames(eqtl_S$alpha) %in% q]
   g$coverage <- eqtl_S$sets$coverage[i]
   g <- g[, c(3,1,2)]
-  fwrite(g, paste0(SNP, '_', name_list, '_credible_set_eqtl.txt'), quote = FALSE, row.names = FALSE, col.names = TRUE)
+  fwrite(g, paste0(SNP, '_', name_list, '_credible_set_eqtl.txt'), quote = FALSE, row.names = FALSE, col.names = TRUE, sep = "\t")
 }
 
 # Perform colocalization analysis
 susie.res <- coloc.susie(gwas_S, eqtl_S)
 susie.res_summary <- as.data.frame(susie.res$summary)
-write.table(susie.res_summary, paste0(variant, '_coloc_credible_set_summary.txt'), quote = FALSE, row.names = TRUE, col.names = TRUE)
+write.table(susie.res_summary, paste0(variant, '_coloc_credible_set_summary.txt'), quote = FALSE, row.names = TRUE, col.names = TRUE, sep = "\t")
 
 # Extract credible sets with high posterior probability of colocalization and output list of SNPs within the credible sets
 rows_with_high_PP_H4 <- which(susie.res_summary$PP.H4.abf > coloc_prob)
@@ -109,5 +109,5 @@ if (length(rows_with_high_PP_H4) > 0) {
 }
 susie.res_result <- as.data.frame(susie.res_result)
 susie.res_result <- susie.res_result[order(susie.res_result$SNP.PP.H4.abf, decreasing = TRUE),]
-write.table(susie.res_result, paste0(variant, '_coloc_all_SNPs.txt'), quote = FALSE, row.names = TRUE, col.names = TRUE)
+write.table(susie.res_result, paste0(variant, '_coloc_all_SNPs.txt'), quote = FALSE, row.names = TRUE, col.names = TRUE, sep = "\t")
 
