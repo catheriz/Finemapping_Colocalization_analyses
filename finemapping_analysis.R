@@ -25,6 +25,7 @@ gwas_data$z <- gwas_data$b / gwas_data$se
 gwas_data <- gwas_data[, .(snp = SNP, chromosome = chr, position, allele1 = A1, allele2 = A2, beta = b, se, z, N, varbeta)]
 # Ordered by chromosome and position
 setorder(gwas_data, chromosome, position)
+gwas_data <- as.list(gwas_data)
 
 # Load LD matrix
 ldfile <- as.matrix(fread(ld_file))
@@ -42,7 +43,7 @@ L <- length(gwas_S$sets$cs)
 for (i in 1:L) {
   name_list <- names(gwas_S$sets$cs)[i]
   name_list_num <- as.numeric(gsub('L', '', name_list))
-  q <- gwas_data$snp[as.numeric(rownames(gwas_data)) %in% unlist(gwas_S$sets$cs[name_list])]
+  q <- gwas_data$snp[gwas_data$snp %in% gsub("^L\\d+\\.", "", names(unlist(gwas_S$sets$cs[name_list])))]
   g <- as.data.frame(t(gwas_S$alpha[name_list_num, colnames(gwas_S$alpha) %in% q]))
   colnames(g) <- paste0(name_list, '_pip')
   g$name <- colnames(gwas_S$alpha)[colnames(gwas_S$alpha) %in% q]
